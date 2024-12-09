@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limit App</title>
+</head>
+<body>
+    <h1>Click Tracker</h1>
+    <button onclick="clickButton('blue')">Blue Button</button>
+    <button onclick="clickButton('red')">Red Button</button>
+    <p id="message"></p>
+    <script>
+        async function clickButton(button) {
+            try {
+                const response = await fetch(`/click/${button}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ button }),
+                });
+                const data = await response.json();
+                document.getElementById("message").innerText = data.message;
+            } catch (error) {
+                document.getElementById("message").innerText = error.message;
+            }
+        }
+    </script>
+</body>
+</html>
